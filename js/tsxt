@@ -1,0 +1,45 @@
+const navList = document.querySelector("#navbar__list");
+const sections = document.querySelectorAll("section");
+
+// Start build the nav
+(function CreateNavItems() {
+  for (sec of sections) {
+    var navButton = document.createElement("li");
+    navButton.innerHTML = `<a href='#${sec.id}' class='menu__link'>${sec.dataset.nav}</a>`;
+    navList.appendChild(navButton);
+    scrollBehavior(navButton, sec);
+  }
+})();
+
+//End build the nav
+
+// Start of Scroll to anchor ID using scrollTO event
+function scrollBehavior(navButton, section) {
+  navButton.addEventListener("click", function (event) {
+    event.preventDefault();
+    window.scrollTo({
+      top: section.offsetTop,
+      behavior: "smooth",
+    });
+  });
+}
+// End of Scroll to anchor ID using scrollTO event
+
+// Start of Set the Section class 'active' when it near to the top of viewport
+function activeSection() {
+  for (section of sections) {
+    const sectionBond = section.getBoundingClientRect();
+    if (sectionBond.top <= 380 && sectionBond.bottom >= 350) {
+      section.classList.add("your-active-class");
+    } else {
+      section.classList.remove("your-active-class");
+    }
+  }
+}
+// End of Set the Section class 'active' when it near to the top of viewport
+
+//Start of the Scroll Event to execute the functions of activeSection and toggleNavBar
+window.addEventListener("scroll", (event) => {
+  activeSection();
+});
+//End of the Scroll Event to execute the functions of activeSection and toggleNavBar
